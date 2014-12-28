@@ -91,7 +91,7 @@ class PHPMCached {
 		if ($expiration !== self::EXPIRATION_INFINITY) {
 			$expiration = time() + (int) $expiration;
 		}
-var_dump($expiration, date('d.m.Y H:i:s', $expiration));
+		
 		$status = $this->memcached->set($key, serialize($value), $expiration);
 
 		if ($cacheGroup !== null) {
