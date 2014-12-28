@@ -17,8 +17,6 @@
 		"php": ">=5.3.0"
 	},
 	"autoload": {
-		"psr-0": {
-			"PHPMCached": "src"
-		}
-	}
+        "psr-4": {"PHPMCached\\": "src/PHPMCached"}
+    }
 }
