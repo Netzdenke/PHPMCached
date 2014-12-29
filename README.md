@@ -20,11 +20,14 @@ Install the latest version with `composer require netzdenke/phpmcached`
 <?php
 
 $cache = \PHPMCached\PHPMCached::getInstance('application_name');
+$cache->addServer('127.0.0.1');
 $cacheKey = $cache->getCacheKey('foo');
 
 $cache->set($cacheKey, 'value', 'cache_group', \PHPMCached\PHPMCached::EXPIRATION_HOUR);
 
 $value = $cache->get($cacheKey);
+
+$cache->deleteCacheGroup('cache_group');
 ```
 
 License
