@@ -21,7 +21,7 @@ class PHPMCached {
 	 * @const int
 	 */
 	const EXPIRATION_INFINITY = 0;
-	const EXPIRATION_HOUR = 60;
+	const EXPIRATION_HOUR = 3600;
 	const EXPIRATION_DAY = 86400;
 	const EXPIRATION_WEEK = 604800;
 	const EXPIRATION_YEAR = 31556926;
