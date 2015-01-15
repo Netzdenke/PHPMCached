@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the PHPMCached package.
  *
  * (c) Hahn und Herden Netzdenke GbR <info@netzdenke.de>
@@ -91,7 +91,7 @@ class PHPMCached {
 		if ($expiration !== self::EXPIRATION_INFINITY) {
 			$expiration = time() + (int) $expiration;
 		}
-		
+
 		$status = $this->memcached->set($key, serialize($value), $expiration);
 
 		if ($cacheGroup !== null) {
