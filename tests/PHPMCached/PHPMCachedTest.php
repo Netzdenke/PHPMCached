@@ -90,4 +90,18 @@ class PHPMCachedTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->object->get($cacheKeyD));
 	}
 
+	/**
+	 * Test -> Test disable caching
+	 */
+	public function testDisableCache() {
+		$this->object->disableCache();
+
+		$cacheKey = $this->object->getCacheKey('testA');
+		$status = $this->object->set($cacheKey, 'testA');
+		$this->assertTrue($status);
+
+		$value = $this->object->get($cacheKey);
+		$this->assertFalse($value);
+	}
+
 }

@@ -45,6 +45,12 @@ class PHPMCached {
 	protected $appKey = 'app';
 
 	/**
+	 * Is cache enabled
+	 * @var bool
+	 */
+	protected $enabled;
+
+	/**
 	 * Get instance
 	 * @param string $appKey
 	 * @return \PHPMCached\PHPMCached
@@ -63,6 +69,7 @@ class PHPMCached {
 	 */
 	private function __construct($appKey) {
 		$this->memcached = new \Memcached();
+		$this->enabled = true;
 
 		if ($appKey !== null) {
 			$this->appKey = $appKey;
@@ -80,6 +87,13 @@ class PHPMCached {
 	}
 
 	/**
+	 * Disable caching
+	 */
+	public function disableCache() {
+		$this->enabled = false;
+	}
+
+	/**
 	 * Set an entry
 	 * @param string $key
 	 * @param mixed $value
@@ -88,6 +102,10 @@ class PHPMCached {
 	 * @return bool
 	 */
 	public function set($key, $value, $cacheGroup = null, $expiration = self::EXPIRATION_INFINITY) {
+		if ($this->enabled === false) {
+			return true;
+		}
+
 		if ($expiration !== self::EXPIRATION_INFINITY) {
 			$expiration = time() + (int) $expiration;
 		}
@@ -115,6 +133,10 @@ class PHPMCached {
 	 * @return bool|mixed
 	 */
 	public function get($key) {
+		if ($this->enabled === false) {
+			return false;
+		}
+
 		$entry = unserialize($this->memcached->get($key));
 		if ($this->memcached->getResultCode() === \Memcached::RES_NOTFOUND) {
 			return false;
@@ -128,6 +150,10 @@ class PHPMCached {
 	 * @param string $key
 	 */
 	public function delete($key) {
+		if ($this->enabled === false) {
+			return;
+		}
+
 		$this->memcached->delete($key);
 	}
 
@@ -136,6 +162,10 @@ class PHPMCached {
 	 * @return bool
 	 */
 	public function flush() {
+		if ($this->enabled === false) {
+			return true;
+		}
+
 		return $this->memcached->flush();
 	}
 
@@ -144,6 +174,10 @@ class PHPMCached {
 	 * @param string $cacheGroup
 	 */
 	public function deleteCacheGroup($cacheGroup) {
+		if ($this->enabled === false) {
+			return;
+		}
+
 		$key = $this->getCacheGroupKey($cacheGroup);
 		$cacheKeys = $this->get($key);
 		if (is_array($cacheKeys)) {
